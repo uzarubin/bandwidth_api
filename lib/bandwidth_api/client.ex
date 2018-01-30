@@ -5,8 +5,9 @@ defmodule BandwidthApi.Client do
   alias HTTPoison
   alias Poison
 
+  # Available Numbers endpoint calls
   def list_local_numbers(partial_url, params) do
-    make_request(:get, build_url(partial_url), "", build_headers(:form), params)
+    make_request(:get, build_url(partial_url), "", build_headers(:basic), params)
   end
 
   def order_local_number(partial_url, params) do
@@ -24,16 +25,30 @@ defmodule BandwidthApi.Client do
     make_request(:post, build_url(partial_url), Poison.encode!(body), build_headers(:json), params)
   end
 
+  # Phone Numbers endpoint calls
+
+  def list_phone_numbers(partial_url, body) do
+    make_request(:get, build_url(partial_url), Poison.encode!(body), build_headers(:json))
+  end
+
+  # Returns empty body on order
+  def order_phone_number(partial_url, body) do
+    make_request(:post, build_url(partial_url), Poison.encode!(body), build_headers(:json))
+  end
+
+  def number_info(params) do
+    make_request
+  end
+
   def make_request(method, url, body \\ "", headers, params \\ []) do
     HTTPoison.request(method, url, body, headers, [params: params])
   end
 
   def build_url(partial_url) do
-      url = "v1" |> base_url()
-      url <> "/#{partial_url}"
+      base_url("v1") <> "/#{partial_url}"
   end
 
-  def build_headers(:form) do
+  def build_headers(:basic) do
     [auth_header()]
   end
 
