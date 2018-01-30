@@ -35,9 +35,19 @@ defmodule BandwidthApi.Client do
   def order_phone_number(partial_url, body) do
     make_request(:post, build_url(partial_url), Poison.encode!(body), build_headers(:json))
   end
+  # Can use phone number id or the number itself
+  def number_info(partial_url) do
+    make_request(:get, build_url(partial_url), "", build_headers(:json))
+  end
 
-  def number_info(params) do
-    make_request
+  # Can use number or id, Returns empty body
+  def update_number(partial_url, params) do
+    make_request(:post, build_url(partial_url), Poison.encode!(params), build_headers(:json))
+  end
+
+  # Requires a number id, cannot use phone number
+  def delete_number(partial_url) do
+    make_request(:delete, build_url(partial_url), "", build_headers(:json))
   end
 
   def make_request(method, url, body \\ "", headers, params \\ []) do
