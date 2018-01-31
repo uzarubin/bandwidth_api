@@ -5,7 +5,7 @@ defmodule BandwidthApi.Client do
   alias HTTPoison
   alias Poison
 
-  # Available Numbers endpoint calls
+  ## Available Numbers endpoint calls
   def list_local_numbers(partial_url, params) do
     make_request(:get, build_url(partial_url), "", build_headers(:basic), params)
   end
@@ -25,7 +25,7 @@ defmodule BandwidthApi.Client do
     make_request(:post, build_url(partial_url), Poison.encode!(body), build_headers(:json), params)
   end
 
-  # Phone Numbers endpoint calls
+  ## Phone Numbers endpoint calls
 
   def list_phone_numbers(partial_url, body) do
     make_request(:get, build_url(partial_url), Poison.encode!(body), build_headers(:json))
@@ -48,6 +48,20 @@ defmodule BandwidthApi.Client do
   # Requires a number id, cannot use phone number
   def delete_number(partial_url) do
     make_request(:delete, build_url(partial_url), "", build_headers(:json))
+  end
+
+  ## Messages endpoint calls
+
+  def list_messages(partial_url, params) do
+    make_request(:get, build_url(partial_url), Poison.encode!(params), build_headers(:json))
+  end
+
+  def send_message(partial_url, params) do
+    make_request(:post, build_url(partial_url), Poison.encode!(params), build_headers(:json))
+  end
+
+  def message_info(partial_url) do
+    make_request(:get, build_url(partial_url), "", build_headers(:json))
   end
 
   def make_request(method, url, body \\ "", headers, params \\ []) do
