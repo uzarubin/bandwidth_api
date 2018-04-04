@@ -53,7 +53,7 @@ defmodule BandwidthApi.Client do
   ## Messages endpoint calls
 
   def list_messages(partial_url, params) do
-    make_request(:get, build_url(partial_url), Poison.encode!(params), build_headers(:json))
+    make_request(:get, build_url(partial_url), Poison.encode!(params), build_headers(:json), params)
   end
 
   def send_message(partial_url, params) do
