@@ -64,6 +64,18 @@ defmodule BandwidthApi.Client do
     make_request(:get, build_url(partial_url), "", build_headers(:json))
   end
 
+  ## Calls endpoints
+
+  def play_audio(partial_url, params) do
+    make_request(:post, build_url(partial_url), Poison.encode!(params), build_headers(:json))
+  end
+
+  def update_call(partial_url, params) do
+    make_request(:post, build_url(partial_url), Poison.encode!(params), build_headers(:json))
+  end
+
+  ## Helpers
+
   def make_request(method, url, body \\ "", headers, params \\ []) do
     HTTPoison.request(method, url, body, headers, [params: params])
   end
