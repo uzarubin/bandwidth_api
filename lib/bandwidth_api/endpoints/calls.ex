@@ -1,6 +1,6 @@
 defmodule BandwidthApi.Endpoints.Calls do
   alias BandwidthApi.Client
-  import BandwdithApi.Config, only: [usert_id: 0]
+  import BandwidthApi.Config, only: [user_id: 0]
 
 
   def play_audio(%{"callId" => call_id} = params), do: Client.play_audio(partial_url(call_id) <> "/audio", params)
