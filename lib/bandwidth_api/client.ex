@@ -1,6 +1,13 @@
 defmodule BandwidthApi.Client do
 
-  import BandwidthApi.Config, only: [base_url: 1, api_token: 0, api_secret: 0]
+  import BandwidthApi.Config, only: [
+    base_url: 1,
+    base_dashboard_url: 0,
+    api_token: 0,
+    api_secret: 0,
+    username: 0,
+    password: 0,
+  ]
 
   alias HTTPoison
   alias Poison
@@ -8,6 +15,10 @@ defmodule BandwidthApi.Client do
   ## Available Numbers endpoint calls
   def list_local_numbers(partial_url, params) do
     make_request(:get, build_url(partial_url), "", build_headers(:basic), params)
+  end
+
+  def list_dashboard_numbers(partial_url, params) do
+    make_request(:get, build_dashboard_url(partial_url), "", build_headers(:xml), params)
   end
 
   def order_local_number(partial_url, params) do
@@ -80,12 +91,18 @@ defmodule BandwidthApi.Client do
     HTTPoison.request(method, url, body, headers, [params: params])
   end
 
-  def build_url(partial_url) do
-      base_url("v1") <> "/#{partial_url}"
-  end
+  def build_url(partial_url), do: base_url("v1") <> "/#{partial_url}"
+  def build_dashboard_url(partial_url), do: base_dashboard_url() <> "/#{partial_url}"
 
   def build_headers(:basic) do
     [auth_header()]
+  end
+
+  def build_headers(:xml) do
+    [
+      {"Content-Type", "application/xml; charset=utf-8"},
+      auth_header_dashboard()
+    ]
   end
 
   def build_headers(:json) do
@@ -97,6 +114,6 @@ defmodule BandwidthApi.Client do
   end
 
   def auth_header, do: {"Authorization", "Basic #{:base64.encode("#{api_token()}:#{api_secret()}")}"}
-
+  def auth_header_dashboard, do: {"Authorization", "Basic #{:base64.encode("#{username()}:#{password()}")}"}
   def params_to_map(params), do: params |> Enum.into(%{})
 end

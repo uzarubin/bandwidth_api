@@ -23,6 +23,8 @@ defmodule BandwidthApi.Mixfile do
     [
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
+      {:xml_builder, "~> 2.0.0"},
+      {:elixir_xml_to_map, "~> 0.1"},
     ]
   end
 
