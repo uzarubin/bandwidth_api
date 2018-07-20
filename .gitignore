@@ -22,3 +22,6 @@ erl_crash.dump
 # Directories and files from IntelliJ
 .idea
 bandwidthapi.iml
+bandwidth_api.iml
+lib/.DS_Store
+lib/bandwidth_api/.DS_Store

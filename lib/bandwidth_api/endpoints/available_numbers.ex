@@ -15,7 +15,6 @@ defmodule BandwidthApi.Endpoints.AvailableNumbers do
   def order(:local, params), do: Client.order_local_number(partial_url(:local), build_query_params(params))
   def order(:toll_free, params), do: Client.order_toll_free_number(partial_url(:tollFree), build_query_params(params))
 
-
   def partial_url(:local), do: "availableNumbers/local"
   def partial_url(:tollFree), do: "availableNumbers/tollFree"
   def partial_url(:dashboard), do: "accounts/#{account_id()}/availableNumbers"
