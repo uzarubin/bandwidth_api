@@ -153,7 +153,7 @@ defmodule BandwidthApi.Client do
       element(:SiteId, site_id()),
       element(:ExistingTelephoneNumberOrderType, [
         element(:TelephoneNumberList, [
-          element(:TelephoneNumber, phone_number)
+          element(:TelephoneNumber, convert_to_e164(phone_number))
         ])
       ])
     ])
@@ -161,10 +161,11 @@ defmodule BandwidthApi.Client do
 
   @doc"""
   Generates payload for phone number imports
+  Requires phone number in the E.164 format
   """
-  def gen_import_payload("+1" <> _ = phone_number) do
+  def gen_import_payload(phone_number) do
     %{
-      number: phone_number,
+      number: convert_to_e164(phone_number),
       applicationId: application_id(),
       name: "imported_number",
       provider: %{
@@ -176,6 +177,16 @@ defmodule BandwidthApi.Client do
         }
       }
     }
+  end
+
+  @doc"""
+  Converts US & Canadian numbers into E.164 format
+  """
+  def convert_to_e164(phone_number) do
+    case phone_number do
+      "+1" <> _ -> phone_number
+      _ -> "+1" <> phone_number
+    end
   end
 
 end
