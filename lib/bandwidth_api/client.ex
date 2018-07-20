@@ -146,14 +146,14 @@ defmodule BandwidthApi.Client do
 
   @doc"""
   Generates XML payload for phone number orders via Bandwidth Dashboard
-  Requires phone number in the E.164 format
+  Requires phone number xxx-xxx-xxxx format
   """
   def gen_xml_payload(phone_number) do
     element(:Order, [
       element(:SiteId, site_id()),
       element(:ExistingTelephoneNumberOrderType, [
         element(:TelephoneNumberList, [
-          element(:TelephoneNumber, convert_to_e164(phone_number))
+          element(:TelephoneNumber, phone_number)
         ])
       ])
     ])
