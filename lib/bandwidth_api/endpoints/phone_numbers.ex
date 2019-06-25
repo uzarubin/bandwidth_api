@@ -19,7 +19,7 @@ defmodule BandwidthApi.Endpoints.PhoneNumbers do
   # Bandwidth Dashboard
   def dashboard_order(params), do: Client.order_phone_number_via_dashboard(partial_url(:dashboard), params)
   def dashboard_order_info(order_id), do: Client.dashboard_order_info(partial_url_with_id(:dashboard, order_id))
-  
+
   def partial_url(:dashboard), do: "accounts/#{account_id()}/orders"
   def partial_url(:app), do: "users/#{user_id()}/phoneNumbers"
   def partial_url_with_id(:dashboard, order_id), do: "accounts/#{account_id()}/orders/#{order_id}"
